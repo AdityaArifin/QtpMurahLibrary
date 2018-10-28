@@ -64,8 +64,6 @@ namespace QtpMurahLibrary
                     index++;
                     var line = reader.ReadLine();
                     result.Add(line);
-                    if (!this.scriptTokenizer.IsLineConvertable(line)) continue;
-                    if (!this.scriptTokenizer.IsLineUploadable(line)) continue;
                     var tokenPair = scriptTokenizer.ExtractToken(index, line);
                     tokenPairs.Add(tokenPair);
                 }

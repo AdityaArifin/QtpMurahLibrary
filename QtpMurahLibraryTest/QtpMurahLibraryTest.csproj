@@ -51,6 +51,7 @@
     <Compile Include="ScriptManagerEnumeratorTest.cs" />
     <Compile Include="ScriptManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VbsConverterTest.cs" />
     <Compile Include="VbsTokenizerTest.cs" />
   </ItemGroup>
   <ItemGroup>

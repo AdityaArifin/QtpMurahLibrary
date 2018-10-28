@@ -35,45 +35,38 @@ namespace QtpMurahLibraryTest
 
             foreach (TokenPair tokenPair in this.TestableScriptManager.tokenPairs)
             {
+                if (tokenPair == null) continue;
                 var value = tokenPair.Value;
                 var field = tokenPair.Field;
 
-                Assert.AreNotEqual("This is line 3", value.value);
-                Assert.AreNotEqual("This is line 4", value.value);
-                Assert.AreNotEqual("This is line 3", field.value);
-                Assert.AreNotEqual("This is line 4", field.value);
+                Assert.AreNotEqual("This is line 3", value.Value);
+                Assert.AreNotEqual("This is line 4", value.Value);
+                Assert.AreNotEqual("This is line 3", field.Value);
+                Assert.AreNotEqual("This is line 4", field.Value);
 
             }
         }
 
-        public bool IsLineConvertable(string line)
-        {
-            return line != "This is line 3";
-        }
-
-        public bool IsLineUploadable(string line)
-        {
-            return line != "This is line 4";
-        }
-
         public TokenPair ExtractToken(int index, string line)
         {
+            if( line == "This is line 3") return null;
+            if (line == "This is line 4") return null;
             var value = new Token()
             {
-                lastCharacter = 10,
-                startCharacter = 1,
-                line = index,
-                type = TokenType.FieldValue,
-                value = line
+                Length = 10,
+                StartCharacter = 1,
+                Line = index,
+                Type = TokenType.FieldValue,
+                Value = line
             };
 
             var field = new Token()
             {
-                lastCharacter = 10,
-                startCharacter = 1,
-                line = index,
-                type = TokenType.FieldName,
-                value = line
+                Length = 10,
+                StartCharacter = 1,
+                Line = index,
+                Type = TokenType.FieldName,
+                Value = line
             };
 
             return new TokenPair(field, value);

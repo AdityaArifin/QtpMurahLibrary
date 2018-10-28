@@ -9,29 +9,37 @@ namespace QtpMurahLibrary
     public class VbsTokenizer : IScriptTokenizer
     {
         public IList<string> Extensions => null;
-        
-        public TokenPair ExtractToken(int index, string line)
-        {
-            return null;
-        }
 
-        public bool IsLineConvertable(string line)
+        public TokenPair ExtractToken(int index, string line)
         {
             Regex regex = new Regex("^session\\.findById\\(\\\"\\S+\\/(\\S+)\\\"\\)\\.text\\s*=\\s*\\\"(.+)\\\"\\s*$");
             MatchCollection matches = regex.Matches(line);
-            if (matches.Count == 0) return false;
+            if (matches.Count == 0) return null;
             foreach (Match match in matches)
             {
                 GroupCollection groups = match.Groups;
-                if (groups.Count < 3) return false;
-                if (groups[1].Value == "okcd") return false;
+                if (groups.Count < 3) return null;
+                if (groups[1].Value == "okcd") return null;
+
+                Token field = ExtractRegex(index, groups[1], TokenType.FieldName);
+                Token value = ExtractRegex(index, groups[2], TokenType.FieldValue);
+                return new TokenPair(field, value);
+
             }
-            return true;
+            return null;
         }
 
-        public bool IsLineUploadable(string line)
+        private Token ExtractRegex(int index, Group group, TokenType tokenType)
         {
-            return false;
+            Token token = new Token
+            {
+                StartCharacter = group.Index,
+                Length = group.Length,
+                Line = index,
+                Type = tokenType,
+                Value = group.Value
+            };
+            return token;
         }
     }
 }
